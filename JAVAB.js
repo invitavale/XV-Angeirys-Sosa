@@ -1,333 +1,68 @@
 // Variables globales
 let isPlaying = false;
-let player = null;
-let playerReady = false;
 let currentSlide = 0;
 let totalSlides = 0;
-let enableMusic = false;
 
-// Funciones globales para los botones del modal
-function enterWithMusicClick() {
-    // console.log('Función enterWithMusicClick() ejecutada');
-    enableMusic = true;
-    const modal = document.getElementById('welcomeModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-
-    // El player se precarga desde DOMContentLoaded (ver loadYouTubeAPI más abajo),
-    // así que si ya está listo llamamos playVideo() de inmediato, dentro del mismo
-    // tick del click. Eso es justo lo que iOS Safari exige para permitir el audio;
-    // si el player se crea o se reproduce de forma asíncrona (fuera del gesto del
-    // usuario), iOS lo bloquea en silencio y por eso antes no sonaba en iPhone.
-    if (playerReady && player) {
-        document.getElementById('musicPlayer').style.display = 'block';
-        player.unMute();
-        player.setVolume(100);
-        player.playVideo();
-        isPlaying = true;
-        updateMusicIcon();
-        // En iOS/Safari a veces el primer playVideo() no arranca el audio
-        // aunque sí "conecta" el gesto; reintentamos una vez, todavía
-        // dentro del mismo ciclo de interacción del usuario.
-        setTimeout(() => {
-            if (player && typeof player.getPlayerState === 'function' && player.getPlayerState() !== 1) {
-                player.unMute();
-                player.playVideo();
-            }
-        }, 300);
-    }
-    // Si el player todavía no está listo (conexión lenta), onPlayerReady se
-    // encarga de reproducir apenas termine de inicializar.
+/* =========================================================
+   Música de fondo: archivo local musica.mp3 (sin YouTube).
+   Arranca en el mismo toque que inicia el video de intro,
+   así funciona también en iPhone.
+   ========================================================= */
+function getMusic() {
+    return document.getElementById('bgMusic');
 }
 
-function enterWithoutMusicClick() {
-    // console.log('Función enterWithoutMusicClick() ejecutada');
-    enableMusic = false;
-    const modal = document.getElementById('welcomeModal');
-    if (modal) {
-        modal.style.display = 'none';
+// Se llama desde intro.js dentro del toque del usuario.
+function startMusic() {
+    const music = getMusic();
+    if (!music) return;
+    music.volume = 1;
+    const p = music.play();
+    if (p && typeof p.catch === 'function') {
+        p.catch(() => {
+            // Si el navegador lo bloqueó, arranca con el siguiente toque.
+            const retry = (ev) => {
+                if (ev.target.closest && ev.target.closest('#musicPlayer')) return;
+                document.removeEventListener('click', retry);
+                document.removeEventListener('touchend', retry);
+                music.play().catch(() => {});
+            };
+            document.addEventListener('click', retry);
+            document.addEventListener('touchend', retry);
+        });
     }
 }
 
-// Función para configurar los botones directamente
-function setupModalButtons() {
-    const enterWithMusic = document.getElementById('enterWithMusic');
-    const enterWithoutMusic = document.getElementById('enterWithoutMusic');
-    const modal = document.getElementById('welcomeModal');
+// Se llama desde intro.js cuando aparece la invitación.
+function showMusicButton() {
+    const musicPlayer = document.getElementById('musicPlayer');
+    if (musicPlayer) musicPlayer.style.display = 'block';
+}
 
-    // console.log('Configurando botones del modal...', { enterWithMusic, enterWithoutMusic, modal });
+function toggleMusic() {
+    const music = getMusic();
+    if (!music) return;
+    if (music.paused) music.play().catch(() => {});
+    else music.pause();
+}
 
-    if (enterWithMusic) {
-        enterWithMusic.onclick = function() {
-            // console.log('Botón CON música clickeado');
-            enableMusic = true;
-            if (modal) {
-                modal.style.display = 'none';
-            }
-            // Mismo arreglo que en enterWithMusicClick: reproducir de forma
-            // síncrona dentro del click si el player ya está precargado.
-            if (playerReady && player) {
-                const musicPlayer = document.getElementById('musicPlayer');
-                if (musicPlayer) musicPlayer.style.display = 'block';
-                player.unMute();
-                player.setVolume(100);
-                player.playVideo();
-                isPlaying = true;
-                updateMusicIcon();
-                setTimeout(() => {
-                    if (player && typeof player.getPlayerState === 'function' && player.getPlayerState() !== 1) {
-                        player.unMute();
-                        player.playVideo();
-                    }
-                }, 300);
-            }
-        };
+function setupMusic() {
+    const music = getMusic();
+    const musicToggle = document.getElementById('musicToggle');
+    if (musicToggle) musicToggle.addEventListener('click', toggleMusic);
+    if (music) {
+        music.addEventListener('play', () => { isPlaying = true; updateMusicIcon(); });
+        music.addEventListener('pause', () => { isPlaying = false; updateMusicIcon(); });
     }
-
-    if (enterWithoutMusic) {
-        enterWithoutMusic.onclick = function() {
-            // console.log('Botón SIN música clickeado');
-            enableMusic = false;
-            if (modal) {
-                modal.style.display = 'none';
-            }
-        };
-    }
+    updateMusicIcon();
 }
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     initializeCountdown();
     initializeCarousel();
-    initializeIntro();
-    const musicToggle = document.getElementById('musicToggle');
-    if (musicToggle) musicToggle.addEventListener('click', toggleMusic);
-    const audio = document.getElementById('bgMusic');
-    if (audio) {
-        audio.addEventListener('playing', () => { isPlaying = true; updateMusicIcon(); });
-        audio.addEventListener('pause', () => { isPlaying = false; updateMusicIcon(); });
-    }
+    setupMusic();
 });
-
-// =========================================================
-// Intro con el video de la puerta.
-// El toque del invitado es la interacción que arranca todo: el video
-// (con su sonido) y la música de fondo, en el mismo gesto, que es lo que
-// exigen iPhone y Android para dejar sonar el audio.
-// En el segundo 3 se apaga el sonido del video y queda solo la música.
-// Al terminar, la luz dorada del final se disuelve sobre la portada.
-// =========================================================
-const VIDEO_SONIDO_HASTA = 3;
-
-function initializeIntro() {
-    const intro = document.getElementById('introVideo');
-    const video = document.getElementById('doorVideo');
-    const audio = document.getElementById('bgMusic');
-    const root = document.documentElement;
-    if (!intro || !video) { root.classList.remove('intro-lock'); return; }
-
-    let started = false, finished = false;
-
-    const finish = () => {
-        if (finished) return;
-        finished = true;
-        window.scrollTo(0, 0);
-        intro.classList.add('is-leaving');           // la luz se disuelve
-        root.classList.remove('intro-lock');
-        root.classList.add('intro-done');            // entra la portada
-        setTimeout(() => intro.remove(), 2000);
-        subirMusica(audio);
-    };
-
-    const start = () => {
-        if (started) return;
-        started = true;
-        enableMusic = true;
-        intro.classList.add('is-playing');
-        const mp = document.getElementById('musicPlayer');
-        if (mp) mp.style.display = 'block';
-
-        // 1) Música: arranca en este mismo toque
-        if (audio) {
-            try { audio.currentTime = 0; } catch (e) {}
-            audio.muted = false;
-            try { audio.volume = 0.55; } catch (e) {}   // suave mientras suena la puerta
-            const pa = audio.play();
-            if (pa && pa.catch) pa.catch(() => {});
-        }
-
-        // 2) Video con su sonido solo hasta el segundo 3
-        video.muted = false;
-        try { video.volume = 1; } catch (e) {}
-        let silenciado = false;
-        const silenciar = () => {
-            if (silenciado) return;
-            silenciado = true;
-            apagarSonido(video);
-            subirMusica(audio);
-        };
-        video.addEventListener('timeupdate', function onT() {
-            if (video.currentTime >= VIDEO_SONIDO_HASTA) {
-                video.removeEventListener('timeupdate', onT);
-                silenciar();
-            }
-        });
-        setTimeout(silenciar, (VIDEO_SONIDO_HASTA + 1) * 1000);   // respaldo
-
-        const pv = video.play();
-        if (pv && pv.catch) {
-            pv.catch(() => {
-                video.muted = true;
-                video.play().catch(() => finish());
-            });
-        }
-        // Empieza la transición un poco antes del final, sobre la luz dorada
-        video.addEventListener('timeupdate', function nearEnd() {
-            if (isFinite(video.duration) && video.currentTime >= video.duration - 0.6) {
-                video.removeEventListener('timeupdate', nearEnd);
-                finish();
-            }
-        });
-        video.addEventListener('ended', finish);
-        const dur = isFinite(video.duration) && video.duration > 0 ? video.duration : 8;
-        setTimeout(finish, (dur + 2.5) * 1000);   // red de seguridad
-
-        // Si el teléfono no dejó sonar la música, el próximo toque la arranca
-        const retry = () => {
-            if (!audio || !audio.paused || userPausedMusic) {
-                ['click', 'touchend'].forEach(ev => document.removeEventListener(ev, retry, true));
-                return;
-            }
-            audio.play().catch(() => {});
-        };
-        setTimeout(() => ['click', 'touchend'].forEach(ev => document.addEventListener(ev, retry, true)), 600);
-    };
-
-    intro.addEventListener('click', start);
-    intro.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); start(); }
-    });
-    if (video.error) video.addEventListener('click', finish);
-    video.addEventListener('error', () => { if (started) finish(); });
-}
-
-let userPausedMusic = false;
-
-// Apaga el sonido del video con un desvanecido corto (en iPhone se silencia directo)
-function apagarSonido(video) {
-    if (!video || video.muted) return;
-    let v = video.volume;
-    const fade = setInterval(() => {
-        v = Math.max(0, v - 0.1);
-        try { video.volume = v; } catch (e) {}
-        if (v <= 0) { clearInterval(fade); video.muted = true; }
-    }, 40);
-}
-
-// Sube la música a volumen completo poco a poco
-function subirMusica(audio) {
-    if (!audio || userPausedMusic) return;
-    if (audio.paused) audio.play().catch(() => {});
-    let v = audio.volume;
-    const fade = setInterval(() => {
-        v = Math.min(1, v + 0.05);
-        try { audio.volume = v; } catch (e) {}
-        if (v >= 1) clearInterval(fade);
-    }, 80);
-}
-
-
-
-
-
-// Cargar la API de YouTube
-function loadYouTubeAPI() {
-    const script = document.createElement('script');
-    script.src = 'https://www.youtube.com/iframe_api';
-    document.body.appendChild(script);
-    window.onYouTubeIframeAPIReady = initializeYouTubePlayer;
-}
-
-// Función llamada por la API de YouTube
-function initializeYouTubePlayer() {
-    if (player) return; // ya inicializado, evita crear el player dos veces
-
-    player = new YT.Player('youtube-player', {
-        height: '1',
-        width: '1',
-        videoId: 'vwp1yxtcD7I',
-        playerVars: {
-            autoplay: 0,
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            loop: 1,
-            modestbranding: 1,
-            playsinline: 1,
-            rel: 0,
-            showinfo: 0,
-            iv_load_policy: 3,
-            playlist: 'vwp1yxtcD7I'
-        },
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange,
-            'onError': onPlayerError
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    playerReady = true;
-    const musicPlayer = document.getElementById('musicPlayer');
-    const musicToggle = document.getElementById('musicToggle');
-
-    if (musicToggle) {
-        musicToggle.addEventListener('click', toggleMusic);
-    }
-
-    // Caso borde: el usuario ya hizo click en "con música" antes de que el
-    // player terminara de inicializar (ej. conexión lenta). Lo reproducimos
-    // apenas esté listo.
-    if (enableMusic && !isPlaying) {
-        if (musicPlayer) musicPlayer.style.display = 'block';
-        event.target.unMute();
-        event.target.setVolume(100);
-        event.target.playVideo();
-        isPlaying = true;
-        updateMusicIcon();
-    }
-}
-
-function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.PLAYING) {
-        isPlaying = true;
-    } else if (event.data === YT.PlayerState.PAUSED) {
-        isPlaying = false;
-    }
-    updateMusicIcon();
-}
-
-function onPlayerError(event) {
-    console.log('Error al cargar el video de YouTube');
-    const musicPlayer = document.getElementById('musicPlayer');
-    musicPlayer.style.display = 'block';
-    isPlaying = false;
-    updateMusicIcon();
-}
-
-function toggleMusic() {
-    const audio = document.getElementById('bgMusic');
-    if (!audio) return;
-    if (audio.paused) {
-        userPausedMusic = false;
-        audio.play().catch(() => {});
-    } else {
-        userPausedMusic = true;
-        audio.pause();
-    }
-}
 
 function updateMusicIcon() {
     const volumeIcon = document.getElementById('volumeIcon');
@@ -352,7 +87,7 @@ function updateMusicIcon() {
 
 // Countdown
 function initializeCountdown() {
-    const targetDate = new Date('2026-12-20T15:30:00').getTime();
+    const targetDate = new Date('2027-01-03T17:00:00-04:00').getTime();
     
     function updateCountdown() {
         const now = new Date().getTime();
@@ -518,8 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function openLocation(location) {
     // Enlaces de ejemplo (dirección ficticia) - ceremonia y celebración
     const mapsUrls = {
-        ceremony: "https://maps.app.goo.gl/jGF4dqpyfrakbxSTA",
-        reception: "https://maps.app.goo.gl/jGF4dqpyfrakbxSTA"
+        ceremony: "https://maps.app.goo.gl/ZRFWF8dLWszPzZoW6",
+        reception: "https://maps.app.goo.gl/ZRFWF8dLWszPzZoW6"
     };
     const mapsUrl = mapsUrls[location] || mapsUrls.ceremony;
     window.open(mapsUrl, '_blank');
@@ -599,166 +334,3 @@ function showToast(title, message) {
     clearCaches();
   }
 })();
-
-// =========================================================
-// Mariposas que vuelan dentro de cada sección (y la portada).
-// Cada una sigue un recorrido suave hacia puntos al azar,
-// girando hacia donde vuela. Solo se animan si la sección
-// está a la vista, para cuidar la batería del celular.
-// =========================================================
-// Mismo comportamiento que la invitación de Pilar: cada mariposa vive en
-// su lugar (a los lados) y da vueltas en un círculo suave alrededor de ese
-// punto, sin salir de su sección. Se voltea de lado al cambiar de dirección
-// y aparecen cuando el invitado llega a la sección.
-const BUTTERFLY_SPOTS = {
-    1: [[86, 22]],
-    2: [[14, 22], [86, 70]],
-    3: [[13, 18], [87, 48], [15, 82]]
-};
-
-function placeButterflies() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const mobile = window.innerWidth < 640;
-    const rand = (a, b) => Math.random() * (b - a) + a;
-    const groups = [];
-
-    document.querySelectorAll('[data-butterflies]').forEach((section) => {
-        const count = Math.min(3, parseInt(section.getAttribute('data-butterflies'), 10) || 0);
-        if (!count) return;
-        const layer = document.createElement('div');
-        layer.className = 'butterfly-layer';
-        layer.setAttribute('aria-hidden', 'true');
-        section.appendChild(layer);
-
-        const flies = BUTTERFLY_SPOTS[count].map(([px0, py], k) => {
-            const px = mobile ? (px0 < 50 ? 6 : 94) : px0;   // en celular, pegadas a los bordes
-            const el = document.createElement('img');
-            el.src = 'mariposa.webp';
-            el.alt = '';
-            el.className = 'butterfly';
-            const size = mobile ? rand(40, 58) : rand(52, 78);
-            el.style.width = size.toFixed(0) + 'px';
-            el.style.transitionDelay = (k * 0.35) + 's';
-            layer.appendChild(el);
-            return {
-                el, size, px, py,
-                rx: mobile ? rand(22, 34) : rand(30, 48),
-                ry: mobile ? rand(12, 20) : rand(16, 26),
-                period: rand(7, 11),
-                spin: Math.random() < 0.5 ? 1 : -1,
-                phase: rand(0, 6.28),
-                bob: rand(2.5, 4),
-                dir: 1, lastX: null
-            };
-        });
-        groups.push({ section, layer, flies, visible: false });
-    });
-
-    function revisarVisibles() {
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-        groups.forEach(g => {
-            const r = g.section.getBoundingClientRect();
-            const h = Math.max(1, r.height);
-            const visiblePx = Math.min(r.bottom, vh) - Math.max(r.top, 0);
-            g.visible = visiblePx > Math.min(h, vh) * 0.15;
-            if (g.visible) g.layer.classList.add('is-on');
-        });
-    }
-
-    const t0 = performance.now();
-    function frame(now) {
-        revisarVisibles();
-        const t = (now - t0) / 1000;
-        for (const g of groups) {
-            if (!g.visible) continue;
-            const W = g.layer.clientWidth, H = g.layer.clientHeight;
-            for (const f of g.flies) {
-                const hImg = f.el.offsetHeight || f.size * 0.85;
-                const cx = Math.min(Math.max(W * f.px / 100, f.rx + f.size / 2), W - f.rx - f.size / 2);
-                const cy = Math.min(Math.max(H * f.py / 100, f.ry + hImg / 2), H - f.ry - hImg / 2);
-                const a = f.spin * (t / f.period) * 6.28 + f.phase;
-                const x = cx + f.rx * Math.cos(a) + f.rx * 0.18 * Math.cos(2 * a) - f.size / 2;
-                const y = cy + f.ry * Math.sin(a) + Math.sin(t * f.bob * 6.28) * 2.5 - hImg / 2;
-                const vx = f.lastX === null ? 0 : x - f.lastX;
-                f.lastX = x;
-                const target = vx < -0.02 ? -1 : (vx > 0.02 ? 1 : (f.dir >= 0 ? 1 : -1));
-                f.dir += (target - f.dir) * 0.08;
-                const tilt = Math.max(-14, Math.min(14, vx * 12));
-                f.el.style.transform =
-                    `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${tilt.toFixed(1)}deg) scaleX(${f.dir.toFixed(3)})`;
-            }
-        }
-        requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-}
-
-// =========================================================
-// Aparición elegante de los elementos al hacer scroll
-// =========================================================
-function setupScrollReveal() {
-    const groups = [
-        { sel: '.section-title', cls: '' },
-        { sel: '.section-subtitle', cls: '' },
-        { sel: '.countdown-item', cls: 'reveal-zoom', stagger: 0.12 },
-        { sel: '.event-card > *', cls: '', stagger: 0.12 },
-        { sel: '.camera-icon, .gift-icon, .whatsapp-icon', cls: 'reveal-zoom' },
-        { sel: '.carousel-container', cls: '' },
-        { sel: '.carousel-counter', cls: '' },
-        { sel: '.party-card', cls: '', stagger: 0.2, alt: true },
-        { sel: '.gifts-container > .btn-wedding, .rsvp-container > .btn-wedding', cls: '' },
-        { sel: '.footer-content > *', cls: '', stagger: 0.15 }
-    ];
-
-    groups.forEach(g => {
-        document.querySelectorAll(g.sel).forEach((el, i) => {
-            if (el.classList.contains('reveal')) return;
-            el.classList.add('reveal');
-            let cls = g.cls;
-            if (g.alt) cls = i % 2 === 0 ? 'reveal-left' : 'reveal-right';
-            if (cls) el.classList.add(cls);
-            if (g.stagger) el.style.setProperty('--reveal-delay', (i * g.stagger) + 's');
-        });
-    });
-
-    let pendientes = Array.from(document.querySelectorAll('.reveal'));
-
-    function terminar(el) {
-        const done = (ev) => {
-            if (ev.target !== el || ev.propertyName !== 'opacity') return;
-            el.removeEventListener('transitionend', done);
-            el.classList.remove('reveal', 'is-visible', 'reveal-left', 'reveal-right', 'reveal-zoom');
-            el.style.removeProperty('--reveal-delay');
-        };
-        el.addEventListener('transitionend', done);
-        // respaldo por si transitionend no llega
-        setTimeout(() => el.classList.remove('reveal', 'reveal-left', 'reveal-right', 'reveal-zoom'), 2600);
-    }
-
-    // Revisión por posición en pantalla: funciona igual en el navegador,
-    // dentro de un iframe o en vistas previas (no depende de IntersectionObserver)
-    function revisar() {
-        if (!pendientes.length) return;
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-        pendientes = pendientes.filter(el => {
-            const r = el.getBoundingClientRect();
-            const alFinal = (window.scrollY + vh) >= (document.documentElement.scrollHeight - 4);
-            if (r.top < vh * 0.9 || (alFinal && r.top < vh)) {
-                el.classList.add('is-visible');
-                terminar(el);
-                return false;
-            }
-            return true;
-        });
-    }
-
-    window.addEventListener('scroll', revisar, { passive: true, capture: true });
-    document.addEventListener('scroll', revisar, { passive: true, capture: true });
-    window.addEventListener('resize', revisar);
-    (function bucle() { revisar(); if (pendientes.length) requestAnimationFrame(bucle); })();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    placeButterflies();
-    setupScrollReveal();
-});

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="es" class="intro-lock">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yerianny - Mis XV Años</title>
-    <link rel="preload" as="image" href="intro-poster.jpg">
+    <title>Angeirys Estheisy Sosa - Mis XV Años</title>
+    <link rel="preload" as="image" href="petalos.png">
     <link rel="preload" as="image" href="foto0.jpg">
-    <link rel="preload" as="image" href="mariposa.webp">
+    <link rel="preload" as="image" href="intro-poster.jpg?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CCSB.css?v=30">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CCSB.css?v=6">
+    <link rel="stylesheet" href="intro.css?v=4">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <style>
         /* Carrusel: 3 imágenes simultáneamente con foto central destacada */
@@ -63,7 +64,7 @@
         @media (min-width: 769px) {
             .carousel-item.is-center .framed-photo {
                 transform: scale(1.12) rotate(-0.2deg);
-                box-shadow: 0 34px 68px rgba(120,126,136,0.40);
+                box-shadow: 0 34px 68px rgba(201,168,93,0.45);
             }
         }
         
@@ -150,41 +151,27 @@
     </style>
 </head>
 <body>
-    <!-- Degradado plateado compartido por las enredaderas -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-        <defs>
-            <linearGradient id="plata" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#9aa0a9" stop-opacity="0.2"/>
-                <stop offset="0.18" stop-color="#8b919b"/>
-                <stop offset="0.4" stop-color="#e8ebef"/>
-                <stop offset="0.6" stop-color="#9ca2ab"/>
-                <stop offset="0.8" stop-color="#d9dde2"/>
-                <stop offset="1" stop-color="#8b919b" stop-opacity="0.2"/>
-            </linearGradient>
-        </defs>
-    </svg>
     <div class="main-center">
-        <!-- Intro: video de la puerta. Al tocarlo arranca todo (video + música) -->
-        <div id="introVideo" class="intro-video" role="button" tabindex="0"
-             aria-label="Toca para abrir la invitación de Yerianny">
-            <video id="doorVideo" poster="intro-poster.jpg"
-                   playsinline webkit-playsinline preload="auto">
-                <source src="intro.mp4" type="video/mp4">
-                <source src="intro.webm" type="video/webm">
+        <!-- Video de introducción: en pausa hasta que tocan la pantalla -->
+        <div id="introLayer" class="intro-layer">
+            <div class="intro-backdrop"></div>
+            <video id="introVideo" class="intro-video" muted playsinline webkit-playsinline preload="auto" poster="intro-poster.jpg?v=2">
+                <source src="intro.mp4?v=2" type="video/mp4">
             </video>
-            <div class="intro-light"></div>
-            <button class="intro-hint" type="button" tabindex="-1">
-                <span class="intro-play" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
-                </span>
-                Toca para abrir
-            </button>
+            <div id="introTap" class="intro-tap" role="button" tabindex="0" aria-label="Toca para abrir tu invitación">
+                <span class="intro-tap-ring"></span>
+                <span class="intro-tap-text">Toca para abrir tu invitación</span>
+            </div>
+            <button id="introSkip" class="intro-skip" type="button">Saltar intro</button>
         </div>
 
-        <!-- Música de fondo -->
-        <audio id="bgMusic" src="musica.mp3" loop preload="auto"></audio>
+        <!-- Destello dorado + pétalos de la transición -->
+        <div id="introFlash" class="intro-flash" aria-hidden="true"></div>
+        <canvas id="magicCanvas" class="magic-canvas" aria-hidden="true"></canvas>
+        <canvas id="petalCanvas" class="petal-canvas" aria-hidden="true"></canvas>
 
-        <!-- Reproductor de música -->
+        <!-- Reproductor de música (archivo local, sin YouTube) -->
+        <audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
         <div id="musicPlayer" class="music-player" style="display: none;">
             <button id="musicToggle" class="music-button modern-icon" title="Reproducir/Pausar música">
                 <svg id="volumeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -196,15 +183,17 @@
         </div>
 
         <!-- Hero Section -->
-        <div class="hero-section" data-butterflies="2">
-            <img class="hero-bg" src="foto0.jpg" alt="Portada XV años de Yerianny">
+        <div class="hero-section">
+            <img class="hero-bg" src="foto0.jpg" alt="Portada XV años de Angeirys">
             <div class="hero-overlay"></div>
+            <div class="top-garland">
+                <img src="separador-rosass.png" alt="">
+            </div>
             <div class="hero-content">
                 <div class="hero-text">
-                    <div class="date date-hidden" aria-hidden="true">20.12.2026</div>
-                    <p class="hero-kicker">Mis XV Años</p>
-                    <h1 class="names">Yerianny</h1>
-                    <p class="hero-frase">Quince primaveras han florecido en mi vida,<br>y hoy quiero celebrarlas contigo.</p>
+                    <div class="date date-hidden" aria-hidden="true">03.01.2027</div>
+                    <h1 class="names">Angeirys</h1>
+                    <p class="hero-phrase">Hoy florecen mis sueños y comienza un nuevo capítulo de mi vida… ¡celebra conmigo mis XV años!</p>
                     <div class="scroll-indicator">
                         <div class="scroll-mouse">
                             <div class="scroll-wheel"></div>
@@ -216,17 +205,11 @@
 
         <!-- Content -->
         <div class="content">
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22 L1000,100 L0,100 Z" fill="#FFF9F2"/>
-                <path class="vine-line" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,30 C170,46 330,40 500,22 S820,6 1000,36" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.62;--wy:0.5;--m:url(flor-a-sup-izq.webp)"><img src="flor-a-sup-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.6;--wy:0.5;--m:url(flor-a-sup-der.webp)"><img src="flor-a-sup-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
         <!-- Countdown -->
-        <section class="countdown-section" data-butterflies="1">
+        <section class="countdown-section">
             <h2 class="section-title">Faltan</h2>
             <div class="countdown-container">
                 <div class="countdown-item">
@@ -249,33 +232,26 @@
         </section>
 
         <!-- Fecha y Lugar -->
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,24 C180,50 360,48 540,26 S860,8 1000,38 L1000,100 L0,100 Z" fill="#F8E1E7"/>
-                <path class="vine-line" d="M0,24 C180,50 360,48 540,26 S860,8 1000,38" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,38 C150,18 340,10 520,30 S840,50 1000,20" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.05;--wy:0.428;--sy:-1;--m:url(flor-b-med-izq.webp)"><img src="flor-b-med-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.08;--wy:0.121;--sy:-1;--m:url(flor-a-med-der.webp)"><img src="flor-a-med-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
-        <section class="events-section" data-butterflies="2">
-            <div class="flora-medio" aria-hidden="true" style="--t:46%"><img class="fm fm-izq" src="flor-m-izq.webp" alt="" loading="lazy" decoding="async"><img class="fm fm-der" src="flor-m-der.webp" alt="" loading="lazy" decoding="async"></div>
+        <section class="events-section">
             <div class="events-container events-container-single">
                 <!-- Fiesta de XV -->
                 <div class="event-card">
-                    <div class="event-icon modern-icon tiara-icon">
-                        <img src="icono-corona.png" alt="Corona" class="icon-img">
+                    <div class="event-icon modern-icon">
+                        <img src="icono-corona.png" alt="Corona dorada" class="icon-img">
                     </div>
                     <h3 class="event-title">Fiesta de XV Años</h3>
                     <div class="event-details">
                         <h4>Día</h4>
-                        <p>Domingo 20 de Diciembre - 18:00hs</p>
+                        <p>Domingo 3 de Enero · 5:00 p. m.</p>
                         <p class="event-punctuality">La recepción sigue a la bienvenida</p>
                     </div>
                     <div class="event-details">
                         <h4>Lugar</h4>
-                        <p>Salón de Fiestas Ejemplo</p>
-                        <p class="event-address">Av. Modelo #456, Sector Ejemplo, Santo Domingo</p>
+                        <p>Alcázar de Linda</p>
+                        <p class="event-address">San Pedro de Macorís, 21000</p>
                     </div>
                     <button class="btn-wedding" onclick="openLocation('reception')">¿Cómo llegar?</button>
                 </div>
@@ -283,17 +259,10 @@
         </section>
 
         <!-- Photo Gallery -->
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22 L1000,100 L0,100 Z" fill="#FFF9F2"/>
-                <path class="vine-line" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,30 C170,46 330,40 500,22 S820,6 1000,36" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.98;--wy:0.161;--m:url(flor-a-med-izq.webp)"><img src="flor-a-med-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.7;--wy:0.418;--m:url(flor-b-med-der.webp)"><img src="flor-b-med-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
-        <section class="gallery-section" data-butterflies="3">
-            <div class="flora-medio" aria-hidden="true" style="--t:34%"><img class="fm fm-izq fm-espejo" src="flor-m-der.webp" alt="" loading="lazy" decoding="async"><img class="fm fm-der fm-espejo" src="flor-m-izq.webp" alt="" loading="lazy" decoding="async"></div>
+        <section class="gallery-section">
             <div class="gallery-container">
                 <h2 class="section-title">Retratos de mis 15 Años</h2>
                 <p class="section-subtitle">Cada foto guarda un pedacito de esta historia que hoy florece</p>
@@ -309,7 +278,7 @@
                 </div>
                 <!-- Carrusel -->
                 <div class="carousel-container">
-                  <button class="carousel-btn carousel-prev" id="prevBtn" aria-label="Foto anterior">‹</button>
+                  <button class="carousel-btn carousel-prev" id="prevBtn">❮</button>
                   <div class="carousel-track-container">
                     <div class="carousel-track" id="carouselTrack">
                       <div class="carousel-item">
@@ -332,7 +301,7 @@
                       </div>
                     </div>
                   </div>
-                  <button class="carousel-btn carousel-next" id="nextBtn" aria-label="Foto siguiente">›</button>
+                  <button class="carousel-btn carousel-next" id="nextBtn">❯</button>
                 </div>
 
                 <div class="carousel-counter">
@@ -343,19 +312,12 @@
         </section>
 
         <!-- Party Information -->
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,24 C180,50 360,48 540,26 S860,8 1000,38 L1000,100 L0,100 Z" fill="#F8E1E7"/>
-                <path class="vine-line" d="M0,24 C180,50 360,48 540,26 S860,8 1000,38" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,38 C150,18 340,10 520,30 S840,50 1000,20" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.555;--wy:0.428;--m:url(flor-b-sup-izq.webp)"><img src="flor-b-sup-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.93;--wy:0.121;--m:url(flor-a-inf-der.webp)"><img src="flor-a-inf-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
-        <section class="party-section" data-butterflies="3">
-            <div class="flora-medio" aria-hidden="true" style="--t:50%"><img class="fm fm-izq" src="flor-m-izq.webp" alt="" loading="lazy" decoding="async"><img class="fm fm-der" src="flor-m-der.webp" alt="" loading="lazy" decoding="async"></div>
+        <section class="party-section">
             <div class="party-container">
-                <h2 class="section-title">Detalles</h2>
+                <h2 class="section-title">Fiesta</h2>
                 <p class="section-subtitle">Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.</p>
 
                 <div class="party-grid">
@@ -364,6 +326,7 @@
                             <img src="icono-vestimenta.png" alt="Vestido y traje" class="icon-img">
                         </div>
                         <h3>Código de Vestimenta</h3>
+                        <p class="dresscode-formal">Formal</p>
                         <button class="btn-wedding" onclick="showDressCode()">Ver más</button>
                     </div>
 
@@ -382,21 +345,24 @@
                         <button class="btn-wedding" onclick="sharePhotos()">Subir Fotos</button>
                     </div>
                 </div>
+
+                <!-- Aviso: celebración sin niños -->
+                <div class="party-card no-kids-card">
+                    <div class="party-icon no-kids-icon">
+                        <img src="icono-no-ninos.png" alt="Ícono de no se permiten niños" class="icon-img">
+                    </div>
+                    <h3>Celebración sin Niños</h3>
+                    <p>Esta noche la hemos preparado con mucha ilusión para celebrar en grande junto a mis amigos y seres queridos. Por el horario, la música y la dinámica de la fiesta, el espacio no está pensado para los más pequeños, por eso les pedimos con todo cariño asistir sin niños.</p>
+                    <p class="no-kids-thanks">¡Gracias por su comprensión y por hacer de este día algo inolvidable!</p>
+                </div>
             </div>
         </section>
 
         <!-- Gifts -->
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22 L1000,100 L0,100 Z" fill="#FFF9F2"/>
-                <path class="vine-line" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,30 C170,46 330,40 500,22 S820,6 1000,36" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.94;--wy:0.161;--m:url(flor-a-inf-izq.webp)"><img src="flor-a-inf-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.52;--wy:0.418;--m:url(flor-b-sup-der.webp)"><img src="flor-b-sup-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
-        <section class="gifts-section" data-butterflies="2">
-            <div class="flora-medio" aria-hidden="true" style="--t:50%"><img class="fm fm-izq fm-espejo" src="flor-m-der.webp" alt="" loading="lazy" decoding="async"><img class="fm fm-der fm-espejo" src="flor-m-izq.webp" alt="" loading="lazy" decoding="async"></div>
+        <section class="gifts-section">
             <div class="gifts-container">
                 <h2 class="section-title">Regalos</h2>
                 <p class="section-subtitle">Si deseas regalarme algo más que tu hermosa presencia.</p>
@@ -410,20 +376,13 @@
         </section>
 
         <!-- RSVP -->
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,24 C180,50 360,48 540,26 S860,8 1000,38 L1000,100 L0,100 Z" fill="#F8E1E7"/>
-                <path class="vine-line" d="M0,24 C180,50 360,48 540,26 S860,8 1000,38" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,38 C150,18 340,10 520,30 S840,50 1000,20" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.95;--wy:0.428;--m:url(flor-b-med-izq.webp)"><img src="flor-b-med-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.92;--wy:0.121;--m:url(flor-a-med-der.webp)"><img src="flor-a-med-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
-        <section class="rsvp-section" data-butterflies="1">
-            <div class="flora-medio" aria-hidden="true" style="--t:64%"><img class="fm fm-izq" src="flor-m-izq.webp" alt="" loading="lazy" decoding="async"><img class="fm fm-der" src="flor-m-der.webp" alt="" loading="lazy" decoding="async"></div>
+        <section class="rsvp-section">
             <div class="rsvp-container">
                 <h2 class="section-title">Confirma tu Asistencia</h2>
-                <p class="section-subtitle">Por favor confirma tu asistencia antes del 1 de Diciembre de 2026</p>
+                <p class="section-subtitle">Por favor confirma tu asistencia antes del 20 de Diciembre de 2026</p>
                 
                 <div class="whatsapp-icon modern-icon">
                     <svg width="80" height="80" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -442,20 +401,14 @@
         </section>
 
         <!-- Footer -->
-        <div class="section-divider vine-divider" aria-hidden="true">
-            <svg class="vine-wave" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                <path class="vine-fill" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22 L1000,100 L0,100 Z" fill="#F2C3D1"/>
-                <path class="vine-line" d="M0,40 C140,14 300,8 470,26 S800,52 1000,22" stroke="url(#plata)"/>
-                <path class="vine-line vine-line-2" d="M0,30 C170,46 330,40 500,22 S820,6 1000,36" stroke="url(#plata)"/>
-            </svg>
-            <span class="flor flor-izq" style="--y:0.98;--wy:0.161;--m:url(flor-a-med-izq.webp)"><img src="flor-a-med-izq.webp" alt="" loading="lazy" decoding="async"></span>
-            <span class="flor flor-der" style="--y:0.7;--wy:0.418;--m:url(flor-b-med-der.webp)"><img src="flor-b-med-der.webp" alt="" loading="lazy" decoding="async"></span>
+        <div class="section-divider">
+            <img src="separador-rosass.png" alt="">
         </div>
-        <footer class="footer" data-butterflies="1">
+        <footer class="footer">
             <div class="footer-content">
                 <p>Con cariño,</p>
-                <h3>Yerianny</h3>
-                <p class="footer-date">20 de Diciembre, 2026</p>
+                <h3>Angeirys Estheisy Sosa</h3>
+                <p class="footer-date">3 de Enero, 2027</p>
             </div>
         </footer>
         </div>
@@ -465,11 +418,14 @@
             <div class="dresscode-modal" onclick="event.stopPropagation()">
                 <button class="modal-close" onclick="closeDressCodeModal()" aria-label="Cerrar">&times;</button>
                 <h2 class="modal-title-dark">Código de Vestimenta</h2>
-                <p class="modal-text-dark">No blanco · No amarillo · No rojo</p>
-                <div class="dresscode-colors">
-                    <span class="color-dot" style="background:#ffffff;" title="No blanco"></span>
-                    <span class="color-dot" style="background:#f4d03f;" title="No amarillo"></span>
-                    <span class="color-dot" style="background:#e74c3c;" title="No rojo"></span>
+                <p class="dresscode-type">Formal</p>
+                <p class="modal-text-dark">Estos colores están reservados para la quinceañera. Con cariño, te pedimos evitarlos:</p>
+                <div class="dresscode-colors dresscode-banned">
+                    <div class="banned-color"><span class="color-dot" style="background:#C08081;"></span><small>Rosa viejo</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#F7B6C8 0 33%,#EE6F9A 33% 66%,#F9D3DF 66%);"></span><small>Otros rosados</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:#FFFFFF;"></span><small>Blanco</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#8E9298 0%,#F2F3F5 45%,#A9ADB3 60%,#E4E6E9 100%);"></span><small>Plateado</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:#D3D4D6;"></span><small>Gris claro</small></div>
                 </div>
             </div>
         </div>
@@ -491,6 +447,7 @@
             } catch(e) {}
         })();
         </script>
-        <script src="JAVAB.js?v=25" defer></script>
+        <script src="JAVAB.js?v=21" defer></script>
+        <script src="intro.js?v=4" defer></script>
 </body>
 </html>
