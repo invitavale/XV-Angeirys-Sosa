@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CCSB.css?v=6">
-    <link rel="stylesheet" href="intro.css?v=4">
+    <link rel="stylesheet" href="CCSB.css?v=11">
+    <link rel="stylesheet" href="intro.css?v=5">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     <style>
         /* Carrusel: 3 imágenes simultáneamente con foto central destacada */
@@ -42,7 +42,7 @@
             max-height: 100%;
             object-fit: contain;
             border-radius: 0;
-            box-shadow: 0 10px 24px rgba(169,95,115,0.35);
+            box-shadow: 0 10px 24px rgba(156, 106, 114,0.35);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
@@ -56,8 +56,8 @@
             box-sizing: border-box !important;
             margin: 0 auto;
             object-fit: contain !important;
-            background: #A95F73 !important;
-            border: 6px solid #A95F73 !important;
+            background: #9C6A72 !important;
+            border: 6px solid #9C6A72 !important;
             border-bottom-width: 20px !important;
         }
 
@@ -171,13 +171,13 @@
         <canvas id="petalCanvas" class="petal-canvas" aria-hidden="true"></canvas>
 
         <!-- Reproductor de música (archivo local, sin YouTube) -->
-        <audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
+        <audio id="bgMusic" src="musica.mp3?v=2" preload="auto" loop></audio>
         <div id="musicPlayer" class="music-player" style="display: none;">
             <button id="musicToggle" class="music-button modern-icon" title="Reproducir/Pausar música">
                 <svg id="volumeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#A95F73" stroke="#fff" stroke-width="1"></polygon>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.08" stroke="#A95F73" stroke-width="2"></path>
-                    <circle cx="6.5" cy="12" r="1" fill="#D98FA3"/>
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#9C6A72" stroke="#fff" stroke-width="1"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.08" stroke="#9C6A72" stroke-width="2"></path>
+                    <circle cx="6.5" cy="12" r="1" fill="#C9A0A6"/>
                 </svg>
             </button>
         </div>
@@ -269,10 +269,10 @@
                 
                 <div class="camera-icon modern-icon">
                     <svg width="70" height="70" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="6" y="18" width="52" height="36" rx="6" fill="#A95F73"/>
-                        <rect x="24" y="10" width="16" height="10" rx="2" fill="#A95F73"/>
+                        <rect x="6" y="18" width="52" height="36" rx="6" fill="#9C6A72"/>
+                        <rect x="24" y="10" width="16" height="10" rx="2" fill="#9C6A72"/>
                         <circle cx="32" cy="36" r="11" fill="#FFF9F2"/>
-                        <circle cx="32" cy="36" r="6" fill="#A95F73"/>
+                        <circle cx="32" cy="36" r="6" fill="#9C6A72"/>
                         <circle cx="48" cy="26" r="2.5" fill="#FFF9F2"/>
                     </svg>
                 </div>
@@ -317,7 +317,7 @@
         </div>
         <section class="party-section">
             <div class="party-container">
-                <h2 class="section-title">Fiesta</h2>
+                <h2 class="section-title">Detalles</h2>
                 <p class="section-subtitle">Hagamos juntos una fiesta épica. Aquí algunos detalles a tener en cuenta.</p>
 
                 <div class="party-grid">
@@ -333,10 +333,10 @@
                     <div class="party-card">
                         <div class="party-icon modern-icon">
                             <svg width="70" height="70" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="6" y="18" width="52" height="36" rx="6" fill="#A95F73"/>
-                                <rect x="24" y="10" width="16" height="10" rx="2" fill="#A95F73"/>
+                                <rect x="6" y="18" width="52" height="36" rx="6" fill="#9C6A72"/>
+                                <rect x="24" y="10" width="16" height="10" rx="2" fill="#9C6A72"/>
                                 <circle cx="32" cy="36" r="11" fill="#FFF9F2"/>
-                                <circle cx="32" cy="36" r="6" fill="#A95F73"/>
+                                <circle cx="32" cy="36" r="6" fill="#9C6A72"/>
                                 <circle cx="48" cy="26" r="2.5" fill="#FFF9F2"/>
                             </svg>
                         </div>
@@ -364,14 +364,44 @@
         </div>
         <section class="gifts-section">
             <div class="gifts-container">
-                <h2 class="section-title">Regalos</h2>
+                <h2 class="section-title">Mesa de Regalos</h2>
                 <p class="section-subtitle">Si deseas regalarme algo más que tu hermosa presencia.</p>
                 
                 <div class="gift-icon modern-icon">
                     <img src="icono-regalo.png" alt="Regalo" class="icon-img">
                 </div>
 
-                <button class="btn-wedding" onclick="showGifts()">Ver más</button>
+                <button class="btn-wedding gifts-toggle" type="button" onclick="toggleGiftOptions(this)" aria-expanded="false" aria-controls="giftOptions">Ver más</button>
+                <div class="gift-options" id="giftOptions" hidden>
+                    <button type="button" class="gift-option" id="optBank" onclick="showBankData()" aria-expanded="false" aria-controls="giftAccounts">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h18L12 4 3 10z"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg>
+                        <span>Datos bancarios</span>
+                    </button>
+                    <button type="button" class="gift-option" onclick="openGiftList()">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/><path d="M12 8c-1.5-3-5-4-5.5-1.5S9 8 12 8zM12 8c1.5-3 5-4 5.5-1.5S15 8 12 8z"/></svg>
+                        <span>Lista de regalos</span>
+                    </button>
+                </div>
+                <div class="accounts" id="giftAccounts" hidden>
+                    <div class="account-card">
+                        <p class="account-bank">Banco Popular</p>
+                        <p class="account-type">Cuenta de ahorro</p>
+                        <div class="account-row">
+                            <span class="account-number">798376315</span>
+                            <button type="button" class="copy-btn" onclick="copyAccount(this, '798376315')" aria-label="Copiar número de cuenta Banco Popular" title="Copiar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                        </div>
+                        <p class="account-holder">A nombre de <strong>Estela Eduardo Medrano</strong></p>
+                    </div>
+                    <div class="account-card">
+                        <p class="account-bank">Banreservas</p>
+                        <p class="account-type">Cuenta de ahorro</p>
+                        <div class="account-row">
+                            <span class="account-number">2780016748</span>
+                            <button type="button" class="copy-btn" onclick="copyAccount(this, '2780016748')" aria-label="Copiar número de cuenta Banreservas" title="Copiar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                        </div>
+                        <p class="account-holder">A nombre de <strong>Estela Eduardo Medrano</strong></p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -386,13 +416,13 @@
                 
                 <div class="whatsapp-icon modern-icon">
                     <svg width="80" height="80" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="8" y="4" width="32" height="40" rx="3" fill="#A95F73"/>
+                        <rect x="8" y="4" width="32" height="40" rx="3" fill="#9C6A72"/>
                         <path d="M28 4v9a3 3 0 0 0 3 3h9" fill="#3A2A1C"/>
                         <rect x="14" y="20" width="20" height="2.4" rx="1.2" fill="#fff"/>
                         <rect x="14" y="26" width="20" height="2.4" rx="1.2" fill="#fff"/>
                         <rect x="14" y="32" width="13" height="2.4" rx="1.2" fill="#fff"/>
                         <circle cx="34" cy="34" r="8" fill="#fff"/>
-                        <path d="M30.5 34l2.3 2.3 4.3-4.6" stroke="#A95F73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <path d="M30.5 34l2.3 2.3 4.3-4.6" stroke="#9C6A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     </svg>
                 </div>
 
@@ -421,11 +451,31 @@
                 <p class="dresscode-type">Formal</p>
                 <p class="modal-text-dark">Estos colores están reservados para la quinceañera. Con cariño, te pedimos evitarlos:</p>
                 <div class="dresscode-colors dresscode-banned">
-                    <div class="banned-color"><span class="color-dot" style="background:#C08081;"></span><small>Rosa viejo</small></div>
-                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#F7B6C8 0 33%,#EE6F9A 33% 66%,#F9D3DF 66%);"></span><small>Otros rosados</small></div>
-                    <div class="banned-color"><span class="color-dot" style="background:#FFFFFF;"></span><small>Blanco</small></div>
-                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#8E9298 0%,#F2F3F5 45%,#A9ADB3 60%,#E4E6E9 100%);"></span><small>Plateado</small></div>
-                    <div class="banned-color"><span class="color-dot" style="background:#D3D4D6;"></span><small>Gris claro</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#C8868F 50%,#D9A3AA 50%);"></span><small>Rosa viejo y rosa empolvado</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#DCC0B0 50%,#E6C8C0 50%);"></span><small>Champán rosado y nude rosado</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#9EA2A8 0%,#F4F5F7 40%,#B5B9BF 58%,#ECEDEF 100%);"></span><small>Plateado brillante</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:linear-gradient(135deg,#FFFFFF 50%,#FFFBEA 50%);"></span><small>Blanco y marfil</small></div>
+                    <div class="banned-color"><span class="color-dot" style="background:#C9CBCE;"></span><small>Gris</small></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Lista de regalos (conectada a Supabase) -->
+        <div id="giftListModal" class="gl-overlay" hidden onclick="if(event.target===this)closeGiftList()">
+            <div class="gl-modal" role="dialog" aria-modal="true" aria-labelledby="glTitle">
+                <div class="gl-head">
+                    <h2 id="glTitle">Lista de Regalos</h2>
+                    <p>Elige lo que deseas regalarle a Angeirys. Al confirmarlo, queda reservado para que nadie más lo repita.</p>
+                    <button type="button" class="gl-close" onclick="closeGiftList()" aria-label="Cerrar">&times;</button>
+                </div>
+                <div class="gl-status" id="glStatus"></div>
+                <div class="gl-grid" id="glGrid"></div>
+                <div class="gl-foot" id="glFoot">
+                    <p class="gl-count" id="glCount">Toca un regalo para elegirlo</p>
+                    <div class="gl-form">
+                        <input id="glName" type="text" maxlength="60" placeholder="Tu nombre" autocomplete="name" aria-label="Tu nombre">
+                        <button type="button" id="glConfirm" class="gl-confirm" onclick="confirmGifts()" disabled>Reservar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -447,7 +497,8 @@
             } catch(e) {}
         })();
         </script>
-        <script src="JAVAB.js?v=21" defer></script>
-        <script src="intro.js?v=4" defer></script>
+        <script src="JAVAB.js?v=24" defer></script>
+        <script src="intro.js?v=5" defer></script>
+        <script src="regalos.js?v=1" defer></script>
 </body>
 </html>

@@ -72,7 +72,7 @@ function updateMusicIcon() {
             volumeIcon.innerHTML = `
                 <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#222" stroke="#fff" stroke-width="1"></polygon>
                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.08" stroke="#222" stroke-width="2"></path>
-                <circle cx="6.5" cy="12" r="1" fill="#D98FA3"/>
+                <circle cx="6.5" cy="12" r="1" fill="#C9A0A6"/>
             `;
         } else {
             volumeIcon.innerHTML = `
@@ -291,7 +291,7 @@ function showGifts() {
 
 function confirmAttendance() {
     // Ejemplo: aquí se debe colocar el enlace real al formulario de Google Forms.
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLSdIYoM33yAkMmS4DZCRVmO9_IE0gZT4eEw8cV0r2PgWlYE0Ag/viewform?usp=header', '_blank');
+    window.open('https://docs.google.com/forms/d/e/1FAIpQLSd1mfWrZFodqprqnMtqcjzPydEwunI2qbiD6WwsSHhitb6c4w/viewform?usp=publish-editor', '_blank');
 }
 
 // Sistema de Toast
@@ -334,3 +334,65 @@ function showToast(title, message) {
     clearCaches();
   }
 })();
+
+
+// Copiar número de cuenta (con respaldo para navegadores/visores sin portapapeles)
+function copyAccount(btn, number) {
+    const done = () => {
+        btn.classList.add('copied');
+        showToast('¡Copiado!', 'Número de cuenta ' + number);
+        setTimeout(() => btn.classList.remove('copied'), 1800);
+    };
+    const fallback = () => {
+        const ta = document.createElement('textarea');
+        ta.value = number;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select(); ta.setSelectionRange(0, 99);
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(number).then(done).catch(fallback);
+    } else {
+        fallback();
+    }
+}
+
+// Mesa de regalos: "Ver más" muestra dos opciones (datos bancarios / lista)
+function toggleGiftOptions(btn) {
+    const box = document.getElementById('giftOptions');
+    if (!box) return;
+    const open = box.hasAttribute('hidden');
+    if (open) {
+        box.removeAttribute('hidden');
+        requestAnimationFrame(() => box.classList.add('is-open'));
+        btn.textContent = 'Ocultar';
+    } else {
+        box.classList.remove('is-open');
+        box.setAttribute('hidden', '');
+        hideBankData();
+        btn.textContent = 'Ver más';
+    }
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function showBankData() {
+    const box = document.getElementById('giftAccounts');
+    const opt = document.getElementById('optBank');
+    if (!box) return;
+    if (!box.hasAttribute('hidden')) { hideBankData(); return; }
+    box.removeAttribute('hidden');
+    requestAnimationFrame(() => box.classList.add('is-open'));
+    if (opt) { opt.classList.add('is-active'); opt.setAttribute('aria-expanded', 'true'); }
+    setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+}
+
+function hideBankData() {
+    const box = document.getElementById('giftAccounts');
+    const opt = document.getElementById('optBank');
+    if (box) { box.classList.remove('is-open'); box.setAttribute('hidden', ''); }
+    if (opt) { opt.classList.remove('is-active'); opt.setAttribute('aria-expanded', 'false'); }
+}

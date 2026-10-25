@@ -1,20 +1,20 @@
 /* Variables CSS */
 :root {
     --background: 32 100% 97%; /* #FFF9F2 - crema principal */
-    --foreground: 351 12% 33%; /* #5E4A4D - café rosado, texto principal */
-    --primary: 351 12% 33%;
+    --foreground: 355 14% 31%; /* #5A4346 - café rosado, texto principal */
+    --primary: 355 14% 31%;
     --primary-foreground: 32 100% 97%;
-    --gold: 344 30% 52%; /* #A95F73 - rosa oscuro/malva, acento principal */
-    --gold-light: 344 49% 71%; /* #D98FA3 - rosa malva claro, detalles secundarios */
-    --gold-dark: 344 30% 52%; /* #A95F73 - rosa oscuro, para títulos */
+    --gold: 351 19% 51%; /* #9C6A72 - rosa oscuro/malva, acento principal */
+    --gold-light: 352 30% 71%; /* #C9A0A6 - rosa malva claro, detalles secundarios */
+    --gold-dark: 351 19% 51%; /* #9C6A72 - rosa oscuro, para títulos */
     --brown: 88 12% 60%; /* #9AA58D - verde salvia */
     --brown-light: 88 12% 70%;
-    --brown-dark: 351 12% 33%; /* #5E4A4D - café rosado, texto principal */
-    --cream: 344 62% 93%; /* #F8E1E7 - rosa claro secundario */
+    --brown-dark: 355 14% 31%; /* #5A4346 - café rosado, texto principal */
+    --cream: 355 33% 93%; /* #F3E5E6 - rosa claro secundario */
     --warm-white: 32 100% 97%; /* #FFF9F2 */
-    --blush: 344 49% 71%; /* #D98FA3 - rosa malva claro */
-    --shadow-elegant: 0 10px 30px -10px hsl(351 12% 33% / 0.15);
-    --shadow-gold: 0 4px 20px hsl(344 30% 52% / 0.35);
+    --blush: 352 30% 71%; /* #C9A0A6 - rosa malva claro */
+    --shadow-elegant: 0 10px 30px -10px hsl(355 14% 31% / 0.15);
+    --shadow-gold: 0 4px 20px hsl(351 19% 51% / 0.35);
 }
 
 /* Reset y base */
@@ -70,7 +70,7 @@ html { background-color: #FFF9F2; }
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-size: clamp(0.95rem, 2.2vw, 1.3rem);
-    color: #A95F73;
+    color: #9C6A72;
     margin-top: 0.35rem;
 }
 
@@ -92,7 +92,7 @@ html { background-color: #FFF9F2; }
 /* Nuevo diseño de bienvenida tipo portada */
 .welcome-hero {
     text-align: center;
-    color: #D98FA3;
+    color: #C9A0A6;
     max-width: 900px;
     padding: 2rem;
 }
@@ -102,7 +102,7 @@ html { background-color: #FFF9F2; }
     font-weight: 600;
     line-height: 1.1;
     letter-spacing: 0.5px;
-    color: #D98FA3; /* dorado claro para contraste sobre fondo oscuro */
+    color: #C9A0A6; /* dorado claro para contraste sobre fondo oscuro */
     font-size: clamp(1.8rem, 4vw, 2.6rem);
     margin-bottom: 1rem;
 }
@@ -116,7 +116,7 @@ html { background-color: #FFF9F2; }
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 400;
-    color: #D98FA3;
+    color: #C9A0A6;
     font-size: clamp(0.95rem, 1.6vw, 1.15rem);
     line-height: 1.7;
     letter-spacing: 0.3px;
@@ -134,7 +134,7 @@ html { background-color: #FFF9F2; }
     transform: translateX(-50%);
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #D98FA3, transparent);
+    background: linear-gradient(90deg, transparent, #C9A0A6, transparent);
 }
 
 .welcome-note {
@@ -150,23 +150,23 @@ html { background-color: #FFF9F2; }
 }
 
 .btn-gold {
-    background-color: #A95F73;
+    background-color: #9C6A72;
     color: #fff;
-    border: 2px solid #D98FA3;
+    border: 2px solid #C9A0A6;
     border-radius: 9999px;
     padding: 0.65rem 1.1rem;
     cursor: pointer;
     transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease;
     font-weight: 600;
-    box-shadow: 0 6px 20px rgba(169, 95, 115, 0.35);
+    box-shadow: 0 6px 20px rgba(156, 106, 114, 0.35);
 }
 
 .btn-gold:hover { transform: translateY(-1px); }
 
 .btn-gold-outline {
     background: transparent;
-    color: #D98FA3;
-    border: 1px solid #D98FA3;
+    color: #C9A0A6;
+    border: 1px solid #C9A0A6;
     border-radius: 9999px;
     padding: 0.65rem 1.1rem;
     cursor: pointer;
@@ -465,7 +465,7 @@ html { background-color: #FFF9F2; }
 .section-title {
     font-family: 'Playfair Display', serif;
     font-size: 3rem;
-    color: #A95F73;
+    color: #9C6A72;
     margin-bottom: 1rem;
     font-weight: 700;
 }
@@ -493,20 +493,20 @@ html { background-color: #FFF9F2; }
     transform: translateY(-50%);
     width: 1px;
     height: 80%;
-    background-color: #D98FA3;
+    background-color: #C9A0A6;
 }
 
 .countdown-number {
     font-size: clamp(1.2rem, 4vw, 2rem);
     font-weight: 700;
-    color: #A95F73;
+    color: #9C6A72;
     margin-bottom: 0.1rem;
     animation: flip-in 0.6s ease-out;
 }
 
 .countdown-label {
     font-size: clamp(0.5rem, 1.8vw, 0.7rem);
-    color: #5E4A4D;
+    color: #5A4346;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     font-weight: 500;
@@ -554,7 +554,7 @@ html { background-color: #FFF9F2; }
 .event-title {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
-    color: #A95F73 !important;
+    color: #9C6A72 !important;
     margin-bottom: 1.5rem;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -568,7 +568,7 @@ html { background-color: #FFF9F2; }
     content: "";
     position: absolute;
     left: 10%; right: 10%;
-    height: 1px; background: #D98FA3;
+    height: 1px; background: #C9A0A6;
 }
 .event-title::before { top: 0; }
 .event-title::after { bottom: 0; }
@@ -580,12 +580,12 @@ html { background-color: #FFF9F2; }
 .event-details h4 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #5E4A4D;
+    color: #5A4346;
     margin-bottom: 0.5rem;
 }
 
 .event-details p {
-    color: #5E4A4D;
+    color: #5A4346;
 }
 
 .event-punctuality {
@@ -617,7 +617,7 @@ html { background-color: #FFF9F2; }
     padding: 0.75rem 2rem;
     border-radius: 9999px;
     border: none;
-    background: #A95F73;
+    background: #9C6A72;
     color: #FFFFFF;
     font-weight: 500;
     cursor: pointer;
@@ -627,7 +627,7 @@ html { background-color: #FFF9F2; }
 }
 
 .btn-wedding:hover {
-    box-shadow: 0 4px 20px rgba(169, 95, 115, 0.4);
+    box-shadow: 0 4px 20px rgba(156, 106, 114, 0.4);
 }
 
 /* Modern & Elegant Buttons and Icons */
@@ -639,11 +639,11 @@ html { background-color: #FFF9F2; }
 .gifts-container button,
 .rsvp-container button {
     border-radius: 9999px !important;
-    background: linear-gradient(90deg, #A95F73 0%, #D98FA3 100%) !important;
+    background: linear-gradient(90deg, #9C6A72 0%, #C9A0A6 100%) !important;
     color: #FFFFFF !important;
     font-weight: 600;
     font-size: 1.1rem;
-    box-shadow: 0 4px 18px -6px rgba(169, 95, 115, 0.35);
+    box-shadow: 0 4px 18px -6px rgba(156, 106, 114, 0.35);
     border: none;
     transition: box-shadow 0.2s, transform 0.2s;
     outline: none;
@@ -660,7 +660,7 @@ html { background-color: #FFF9F2; }
 .party-card button:hover,
 .gifts-container button:hover,
 .rsvp-container button:hover {
-    box-shadow: 0 8px 32px -8px rgba(169, 95, 115, 0.55);
+    box-shadow: 0 8px 32px -8px rgba(156, 106, 114, 0.55);
     transform: translateY(-2px) scale(1.03);
 }
 
@@ -778,8 +778,8 @@ html { background-color: #FFF9F2; }
 .party-icon svg,
 .gift-icon svg,
 .whatsapp-icon svg {
-    color: #A95F73 !important;
-    fill: #A95F73 !important;
+    color: #9C6A72 !important;
+    fill: #9C6A72 !important;
 }
 
 /* Icono de código de vestimenta: verde oliva (sección de información adicional) */
@@ -793,7 +793,7 @@ html { background-color: #FFF9F2; }
 .party-icon:hover,
 .gift-icon:hover,
 .whatsapp-icon:hover {
-    box-shadow: 0 8px 32px -8px #D98FA388;
+    box-shadow: 0 8px 32px -8px #C9A0A688;
     transform: scale(1.05);
 }
 
@@ -831,7 +831,7 @@ html { background-color: #FFF9F2; }
     content: ""; position: absolute; left: 5%; right: 5%; bottom: 0; height: 0.5px; background: #fff;
 }
 /* Ampersand en acento (no usado en la portada de XV, se deja por compatibilidad) */
-.hero-text .ampersand { color: #A95F73; }
+.hero-text .ampersand { color: #9C6A72; }
 /* Decorative accent quotes above and below */
 .quote { 
     position: relative; 
@@ -840,7 +840,7 @@ html { background-color: #FFF9F2; }
     font-weight: 400;
 }
 .quote::before, .quote::after {
-    position: absolute; left: 50%; transform: translateX(-50%); color: #A95F73; font-family: 'Playfair Display', serif;
+    position: absolute; left: 50%; transform: translateX(-50%); color: #9C6A72; font-family: 'Playfair Display', serif;
 }
 .quote::before { content: "“"; top: -1.5rem; font-size: 2rem; }
 .quote::after { content: "”"; bottom: -2.5rem; font-size: 2rem; }
@@ -851,16 +851,16 @@ html { background-color: #FFF9F2; }
     height: 100%;
     object-fit: cover;
     box-sizing: border-box;
-    background: #A95F73;
-    border: 10px solid #A95F73; /* dorado champagne */
+    background: #9C6A72;
+    border: 10px solid #9C6A72; /* dorado champagne */
     border-bottom-width: 38px; /* pie polaroid */
     border-radius: 4px;
-    box-shadow: 0 10px 24px rgba(169,95,115,0.35);
+    box-shadow: 0 10px 24px rgba(156, 106, 114,0.35);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .section-subtitle {
-    color: #5E4A4D;
+    color: #5A4346;
     margin-bottom: 3rem;
 }
 
@@ -1062,12 +1062,12 @@ html { background-color: #FFF9F2; }
 .party-card h3 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #A95F73;
+    color: #9C6A72;
     margin-bottom: 1rem;
 }
 
 .party-card p {
-    color: #5E4A4D;
+    color: #5A4346;
     margin-bottom: 1.5rem;
 }
 
@@ -1114,14 +1114,14 @@ html { background-color: #FFF9F2; }
 .hashtag {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #5E4A4D;
+    color: #5A4346;
     margin-bottom: 2rem;
 }
 
 /* Footer */
 .footer {
-    background-color: #F8E1E7; /* blanco cálido secundario */
-    color: #5E4A4D;
+    background-color: #F3E5E6; /* blanco cálido secundario */
+    color: #5A4346;
     padding: 2rem 1rem;
     text-align: center;
     width: 100%;
@@ -1160,7 +1160,7 @@ html { background-color: #FFF9F2; }
 .modal-title-dark {
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
-    color: #A95F73;
+    color: #9C6A72;
     margin-bottom: 1rem;
 }
 
@@ -1187,7 +1187,7 @@ html { background-color: #FFF9F2; }
 }
 
 .modal-close:hover {
-    color: #A95F73;
+    color: #9C6A72;
 }
 
 /* Toast */
@@ -1513,22 +1513,22 @@ html { background-color: #FFF9F2; }
 
 /* Footer sobre fondo crema: nombre en rosa oscuro, texto en tono oscuro principal */
 .footer-content p {
-    color: #5E4A4D !important;
+    color: #5A4346 !important;
 }
 .footer-content h3 {
-    color: #A95F73 !important;
+    color: #9C6A72 !important;
 }
 .footer-date {
-    color: #D98FA3 !important;
+    color: #C9A0A6 !important;
 }
 
 /* Textos sobre las secciones en tono oscuro principal para contraste */
 .event-details h4,
 .hashtag {
-    color: #5E4A4D !important;
+    color: #5A4346 !important;
 }
 .party-card h3 {
-    color: #A95F73 !important;
+    color: #9C6A72 !important;
 }
 
 /* Show carousel navigation buttons */
@@ -1582,7 +1582,7 @@ button[class*="carousel"] {
     .framed-photo { margin: 16px auto 24px; max-width: calc(100% - 32px); }
 }
 
-.framed-photo:hover { box-shadow: 0 15px 30px rgba(169,95,115,0.35); }
+.framed-photo:hover { box-shadow: 0 15px 30px rgba(156, 106, 114,0.35); }
 
 
 
@@ -1591,7 +1591,7 @@ button[class*="carousel"] {
     .carousel-item.is-center { z-index: 2; }
     .carousel-item.is-center .framed-photo {
         transform: scale(1.12) rotate(-0.2deg);
-        box-shadow: 0 34px 68px rgba(169,95,115,0.45);
+        box-shadow: 0 34px 68px rgba(156, 106, 114,0.45);
     }
 }
 
@@ -1626,7 +1626,7 @@ button[class*="carousel"] {
 .events-section,
 .party-section,
 .rsvp-section {
-    background-color: #F8E1E7 !important;
+    background-color: #F3E5E6 !important;
 }
 
 /* Portada (desktop): usar imagen por defecto y altura de la sección base */
@@ -1637,7 +1637,7 @@ button[class*="carousel"] {
     font-size: 1.15rem;
     font-style: italic;
     letter-spacing: 0.06em;
-    color: #A95F73 !important;
+    color: #9C6A72 !important;
     margin-bottom: 1.25rem !important;
 }
 .dresscode-type {
@@ -1696,7 +1696,7 @@ button[class*="carousel"] {
 .no-kids-card .no-kids-thanks {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    color: #A95F73 !important;
+    color: #9C6A72 !important;
     margin-bottom: 0 !important;
 }
 @media (max-width: 768px) {
@@ -1757,3 +1757,224 @@ html.xv-revealed .hero-phrase { animation: xvPhraseIn 1.4s ease 2.4s both; }
    aunque el hosting/visor imponga img{max-width:100%} */
 .section-divider { width: 100%; align-self: stretch; }
 .section-divider img { max-width: none !important; }
+
+/* ---------- Regalos: cuentas dentro de la invitación ---------- */
+.accounts {
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+}
+.account-card {
+    background: #FFFFFF;
+    border: 1.5px solid hsl(var(--gold) / 0.35);
+    border-radius: 1.25rem;
+    padding: 1.1rem 1.25rem;
+    box-shadow: 0 6px 18px -8px rgba(90, 67, 70, 0.35);
+    text-align: center;
+}
+.account-bank {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #9C6A72;
+}
+.account-type {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8A7376;
+    margin-top: 0.15rem;
+}
+.account-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0.6rem 0 0.5rem;
+}
+.account-number {
+    font-size: 1.45rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #5A4346;
+    font-variant-numeric: tabular-nums;
+}
+.gifts-container .copy-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0 !important;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0 !important;
+    cursor: pointer;
+}
+.gifts-container .copy-btn.copied {
+    background: linear-gradient(90deg, #7E9A7A 0%, #A3BC9F 100%) !important;
+}
+.account-holder {
+    font-size: 0.92rem;
+    color: #5A4346;
+}
+.account-holder strong { font-weight: 600; }
+.gifts-container .accounts { order: 3; }
+.gifts-container .gift-icon { margin-bottom: 2rem !important; }
+.dresscode-banned .banned-color { width: 84px; }
+.dresscode-banned .banned-color small { font-size: 0.74rem; }
+.gifts-container .gifts-toggle { order: 3; margin-top: 0 !important; }
+.gifts-container .accounts { order: 4; margin-top: 1.75rem; opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; }
+.gifts-container .accounts.is-open { opacity: 1; transform: none; }
+.gifts-container .accounts[hidden] { display: none !important; }
+
+/* ---------- Mesa de regalos: dos opciones ---------- */
+.gifts-container .gift-options {
+    order: 4;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 360px;
+    margin: 1.5rem auto 0;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity .4s ease, transform .4s ease;
+}
+.gifts-container .gift-options.is-open { opacity: 1; transform: none; }
+.gifts-container .gift-options[hidden] { display: none !important; }
+.gifts-container .gifts-container .accounts, .gifts-container .accounts { order: 5; }
+.gifts-container .gift-option {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem !important;
+    padding: 1.1rem 0.75rem !important;
+    border-radius: 1.25rem !important;
+    background: #FFFFFF !important;
+    color: #9C6A72 !important;
+    border: 1.5px solid hsl(var(--gold) / 0.4) !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 6px 18px -10px rgba(90, 67, 70, 0.4) !important;
+    cursor: pointer;
+}
+.gifts-container .gift-option.is-active {
+    background: linear-gradient(135deg, #9C6A72 0%, #C9A0A6 100%) !important;
+    color: #FFFFFF !important;
+    border-color: transparent !important;
+}
+
+/* ---------- Modal lista de regalos ---------- */
+html.gl-lock, html.gl-lock body { overflow: hidden; }
+.gl-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(40, 25, 28, 0.6);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; transition: opacity .25s ease;
+}
+.gl-overlay.is-open { opacity: 1; }
+.gl-overlay[hidden] { display: none; }
+.gl-modal {
+    position: relative;
+    width: 100%; max-width: 760px;
+    max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem);
+    background: #FFF9F2;
+    border-radius: 1.5rem;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.gl-head { padding: 1.5rem 3rem 0.75rem 1.5rem; text-align: center; }
+.gl-head h2 {
+    font-family: 'Playfair Display', serif;
+    color: #9C6A72; font-size: 1.6rem; margin-bottom: 0.4rem;
+}
+.gl-head p { color: #5A4346; font-size: 0.92rem; line-height: 1.5; }
+.gl-close {
+    position: absolute; top: 0.6rem; right: 0.8rem;
+    width: 40px; height: 40px; border: none; background: transparent;
+    font-size: 2rem; line-height: 1; color: #9C6A72; cursor: pointer;
+}
+.gl-status { min-height: 0; padding: 0 1.5rem; text-align: center; font-size: 0.9rem; color: #8A7376; }
+.gl-status:not(:empty) { padding-bottom: 0.6rem; }
+.gl-status.is-error { color: #B23A48; }
+.gl-status.is-ok { color: #4F7A4F; font-weight: 600; }
+.gl-grid {
+    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.85rem;
+    padding: 0.5rem 1.25rem 1.25rem;
+}
+.gl-item {
+    position: relative;
+    display: flex; flex-direction: column; align-items: stretch;
+    text-align: left;
+    background: #FFFFFF;
+    border: 2px solid transparent;
+    border-radius: 1rem;
+    padding: 0.55rem 0.55rem 0.75rem;
+    box-shadow: 0 4px 14px -8px rgba(90, 67, 70, 0.45);
+    cursor: pointer;
+    font: inherit; color: inherit;
+    transition: border-color .2s, transform .2s;
+}
+.gl-item:active { transform: scale(0.98); }
+.gl-item.is-selected { border-color: #9C6A72; }
+.gl-img {
+    position: relative; display: block;
+    aspect-ratio: 1 / 1; border-radius: 0.7rem; overflow: hidden; background: #fff;
+}
+.gl-img img { width: 100%; height: 100%; object-fit: contain; display: block; max-width: none; }
+.gl-check {
+    position: absolute; top: 6px; right: 6px;
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid #C9A0A6; background: rgba(255,255,255,0.9);
+}
+.gl-item.is-selected .gl-check {
+    background: #9C6A72; border-color: #9C6A72;
+}
+.gl-item.is-selected .gl-check::after {
+    content: ""; position: absolute; left: 8px; top: 4px; width: 6px; height: 11px;
+    border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg);
+}
+.gl-badge {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(90, 67, 70, 0.55); color: #fff; font-weight: 600; letter-spacing: 0.06em;
+    font-size: 0.85rem; text-transform: uppercase;
+}
+.gl-item.is-taken { cursor: default; opacity: 0.75; }
+.gl-num {
+    position: absolute; top: 12px; left: 12px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #F3E5E6; color: #9C6A72; font-size: 0.75rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+}
+.gl-title { margin-top: 0.55rem; font-weight: 600; font-size: 0.92rem; color: #5A4346; line-height: 1.3; }
+.gl-detail { margin-top: 0.25rem; font-size: 0.78rem; color: #8A7376; line-height: 1.4; }
+.gl-foot {
+    border-top: 1px solid hsl(var(--gold) / 0.25);
+    background: #FFFFFF;
+    padding: 0.85rem 1.25rem calc(0.85rem + env(safe-area-inset-bottom));
+}
+.gl-count { font-size: 0.85rem; color: #8A7376; text-align: center; margin-bottom: 0.55rem; }
+.gl-form { display: flex; gap: 0.6rem; }
+.gl-form input {
+    flex: 1; min-width: 0;
+    border: 1.5px solid hsl(var(--gold) / 0.4); border-radius: 9999px;
+    padding: 0.75rem 1rem; font: inherit; font-size: 16px; color: #5A4346; background: #FFF9F2;
+}
+.gl-form input:focus { outline: none; border-color: #9C6A72; }
+.gl-confirm {
+    border: none; border-radius: 9999px; padding: 0 1.4rem;
+    background: linear-gradient(90deg, #9C6A72 0%, #C9A0A6 100%);
+    color: #fff; font-weight: 600; font-size: 1rem; cursor: pointer;
+}
+.gl-confirm:disabled { opacity: 0.45; cursor: default; }
+@media (max-width: 480px) {
+    .gl-overlay { padding: 0; align-items: flex-end; }
+    .gl-modal { max-height: 94vh; max-height: 94dvh; border-radius: 1.5rem 1.5rem 0 0; }
+    .gl-grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; padding: 0.5rem 0.85rem 1rem; }
+    .gl-head h2 { font-size: 1.4rem; }
+}

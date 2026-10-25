@@ -42,6 +42,8 @@
         if (layer) {
             layer.classList.add('is-waiting');
             layer.addEventListener('click', onTap);
+            // En iPhone/Safari el toque (touchend) cuenta como gesto del usuario: la música arranca ahí mismo.
+            layer.addEventListener('touchend', onTap, { passive: true });
             document.addEventListener('keydown', (e) => {
                 if (state === 'idle' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onTap(); }
             });
